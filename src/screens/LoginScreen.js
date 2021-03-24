@@ -9,6 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+  GRAY1,
+  GRAY2,
+} from 'styles/color_scheme';
+
 export default function LoginScreen({navigation}) {
   //states
   const [username, onChangeusername] = React.useState('');
@@ -71,7 +78,7 @@ export default function LoginScreen({navigation}) {
                 color: '#ee6943',
               }}>
               Forgot password ?
-            </Text>{' '}
+            </Text>
           </Text>
         </View>
       </View>
@@ -100,14 +107,14 @@ const custom_styles = StyleSheet.create({
   },
   login_passive: {
     height: 60,
-    backgroundColor: '#c9c7c7',
+    backgroundColor: GRAY1,
     marginTop: 30,
     marginHorizontal: 10,
     justifyContent: 'center',
   },
   login_active: {
     height: 60,
-    backgroundColor: '#ee6943',
+    backgroundColor: PRIMARY_COLOR,
     marginTop: 30,
     marginHorizontal: 10,
     justifyContent: 'center',
