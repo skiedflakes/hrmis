@@ -5,22 +5,38 @@ const Stack = createStackNavigator();
 
 import HomeScreen from 'screens/HomeScreen';
 import LoginScreen from 'screens/LoginScreen';
-export default function StackNavigationHome() {
+import ApplyScreen from 'screens/ApplyScreen';
+import ViewScreen from 'screens/ViewScreen';
+
+export default function StackNavigationHome({route}) {
+  const {screenlist} = route.params;
+
+  const commonScreens = {
+    HomeScreen: HomeScreen,
+    LoginScreen: LoginScreen,
+    ApplyScreen: ApplyScreen,
+    ViewScreen: ViewScreen,
+  };
+
+  const authScreens = {
+    LoginScreen: LoginScreen,
+    HomeScreen: HomeScreen,
+    ApplyScreen: ApplyScreen,
+    ViewScreen: ViewScreen,
+  };
+
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        key="LoginScreen"
-        options={{headerShown: false}}
-      />
-
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        key="HomeScreen"
-        options={{headerShown: false}}
-      />
+      {Object.entries({
+        ...(screenlist == 'home' ? commonScreens : authScreens),
+      }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{headerShown: false}}
+        />
+      ))}
     </Stack.Navigator>
   );
 }

@@ -23,14 +23,34 @@ export default function SplashScreen({navigation}) {
   }, [count]); // Only re-run the effect if count changes
 
   const start = async () => {
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: 'main',
-        },
-      ],
-    });
+    const user_info = await AsyncStorage.getItem('user_details'); //logged in
+    const parsed_user_info = JSON.parse(user_info);
+    console.log(parsed_user_info);
+    if (parsed_user_info != null) {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'main',
+            params: {
+              screenlist: 'home',
+            },
+          },
+        ],
+      });
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'main',
+            params: {
+              screenlist: 'login',
+            },
+          },
+        ],
+      });
+    }
   };
 
   return (

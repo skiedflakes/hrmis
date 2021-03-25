@@ -16,8 +16,7 @@ import {COLOR_PRIMARY, COLOR_SECONDARY} from '../styles/color_scheme';
 //const {width, height} = Dimensions.get('window');
 export default function SplashScreen({navigation}) {
   const logout = () => {
-    remove_async('user_details');
-    navigation.navigate('LoginScreen');
+    navigation.goBack();
   };
   const remove_async = async key => {
     try {
@@ -33,64 +32,20 @@ export default function SplashScreen({navigation}) {
       <View
         style={{flex: 0.1, backgroundColor: 'green', justifyContent: 'center'}}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
-          HRMIS
+          REQUESTS
         </Text>
       </View>
       <View
         style={{
           marginHorizontal: 60,
-          marginVertical: 50,
+          marginVertical: 20,
           alignContent: 'center',
           flex: 0.9,
         }}>
         <TouchableOpacity
           style={{
-            width: '100%',
-            height: 100,
-            backgroundColor: COLOR_PRIMARY,
-            borderRadius: 10,
-            justifyContent: 'center',
-          }}
-          onPress={() => {
-            navigation.navigate('ViewScreen');
-          }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              fontSize: 20,
-              color: 'white',
-            }}>
-            REQUESTS
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: '100%',
-            height: 100,
-            backgroundColor: COLOR_SECONDARY,
-            borderRadius: 10,
-            justifyContent: 'center',
-            marginTop: 20,
-          }}
-          onPress={() => {
-            navigation.navigate('ViewScreen');
-          }}>
-          <Text
-            style={{
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              fontSize: 20,
-              color: 'white',
-            }}>
-            APPLY
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{
-            width: '100%',
-            height: 100,
+            width: '50%',
+            height: 50,
             borderColor: 'gray',
             borderWidth: 2,
             borderRadius: 10,
@@ -98,10 +53,10 @@ export default function SplashScreen({navigation}) {
             marginTop: 20,
           }}
           onPress={() => {
-            logout();
+            navigation.goBack();
           }}>
           <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
-            LOG OUT
+            BACK
           </Text>
         </TouchableOpacity>
       </View>

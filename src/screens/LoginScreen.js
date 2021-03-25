@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   PRIMARY_COLOR,
   SECONDARY_COLOR,
@@ -23,7 +23,19 @@ export default function LoginScreen({navigation}) {
   const [number, onChangeNumber] = React.useState(null);
 
   const btn_login = () => {
-    navigation.navigate('LoginScreen');
+    setItemStorage('user_details', {
+      user_id: 'test_id',
+      user_name: 'test name',
+    });
+    navigation.replace('HomeScreen');
+  };
+
+  const setItemStorage = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      // Error saving data
+    }
   };
 
   return (
@@ -39,7 +51,7 @@ export default function LoginScreen({navigation}) {
             style={custom_styles.input}
             onChangeText={onChangeusername}
             value={username}
-            placeholder="Email address"
+            placeholder="Employee ID "
           />
           <TextInput
             style={custom_styles.input}
@@ -53,7 +65,10 @@ export default function LoginScreen({navigation}) {
               password != '' && username != ''
                 ? custom_styles.login_active
                 : custom_styles.login_passive
-            }>
+            }
+            onPress={() => {
+              btn_login();
+            }}>
             <Text
               style={{
                 color: 'white',
@@ -114,7 +129,7 @@ const custom_styles = StyleSheet.create({
   },
   login_active: {
     height: 60,
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: 'green',
     marginTop: 30,
     marginHorizontal: 10,
     justifyContent: 'center',
