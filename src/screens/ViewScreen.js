@@ -42,23 +42,26 @@ export default function SplashScreen({navigation}) {
           alignContent: 'center',
           flex: 0.9,
         }}>
-        <TouchableOpacity
-          style={{
-            width: '50%',
-            height: 50,
-            borderColor: 'gray',
-            borderWidth: 2,
-            borderRadius: 10,
-            justifyContent: 'center',
-            marginTop: 20,
-          }}
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
-            BACK
-          </Text>
-        </TouchableOpacity>
+        <View style={{justifyContent: 'center', alignContent: 'center'}}>
+          <TouchableOpacity
+            style={{
+              width: '50%',
+              height: 50,
+              borderColor: 'gray',
+              borderWidth: 2,
+              borderRadius: 10,
+              alignSelf: 'center',
+              justifyContent: 'center',
+              marginTop: 10,
+            }}
+            onPress={() => {
+              navigation.goBack();
+            }}>
+            <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
+              BACK
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

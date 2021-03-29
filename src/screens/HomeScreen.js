@@ -74,7 +74,7 @@ export default function SplashScreen({navigation}) {
             marginTop: 20,
           }}
           onPress={() => {
-            navigation.navigate('ViewScreen');
+            navigation.navigate('ApplyScreen');
           }}>
           <Text
             style={{
