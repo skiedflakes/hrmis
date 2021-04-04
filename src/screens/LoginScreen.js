@@ -14,6 +14,7 @@ import {
   SECONDARY_COLOR,
   GRAY1,
   GRAY2,
+  Alert,
 } from 'styles/color_scheme';
 
 export default function LoginScreen({navigation}) {
@@ -38,6 +39,27 @@ export default function LoginScreen({navigation}) {
     }
   };
 
+  // const login = async () => {
+  //   const formData = new FormData();
+  //   formData.append('username', '1000180');
+  //   formData.append('password', '123');
+  //   fetch(global.url + '/login.php', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'multipart/form-data',
+  //     },
+  //     body: formData,
+  //   })
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       console.log(responseJson);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
+
   return (
     <View style={custom_styles.container}>
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -49,13 +71,17 @@ export default function LoginScreen({navigation}) {
           }}>
           <TextInput
             style={custom_styles.input}
-            onChangeText={onChangeusername}
+            onChangeText={text => {
+              onChangeusername(text);
+            }}
             value={username}
             placeholder="Employee ID "
           />
           <TextInput
             style={custom_styles.input}
-            onChangeText={onChangpassword}
+            onChangeText={text => {
+              onChangpassword(text);
+            }}
             value={password}
             placeholder="Password"
           />

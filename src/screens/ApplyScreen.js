@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from 'react-native';
 
 //libs
@@ -137,7 +138,9 @@ export default function SplashScreen({navigation}) {
               marginTop: 30,
             }}
             onPress={() => {
-              navigation.navigate('DateScreen');
+              selected_leave == ''
+                ? Alert.alert('Please select leave type')
+                : navigation.navigate('DateScreen');
             }}>
             <Text style={{alignSelf: 'center', fontSize: 20, color: 'blue'}}>
               NEXT

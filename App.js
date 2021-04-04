@@ -11,7 +11,7 @@ const forFade = ({current}) => ({
 
 const Stack = createStackNavigator();
 export default function App() {
-  global.url = 'https://api.eevolve.asia';
+  global.url = 'http://172.16.10.219/hrmis';
   return (
     <NavigationContainer>
       <Stack.Navigator>
