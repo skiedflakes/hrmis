@@ -15,7 +15,9 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 //libs
 //const {width, height} = Dimensions.get('window');
-export default function DateScreen({navigation}) {
+export default function DateScreen({navigation, route}) {
+  const {leave_type} = route.params;
+
   const [date_list, set_date_list] = useState([]);
   const [count_dates, setcount_dates] = useState('0');
 
@@ -97,7 +99,7 @@ export default function DateScreen({navigation}) {
           flexDirection: 'row',
         }}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
-          SELECTED DATE/S
+          {leave_type} Leave
         </Text>
         <View
           style={{

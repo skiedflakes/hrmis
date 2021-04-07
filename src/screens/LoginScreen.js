@@ -23,14 +23,6 @@ export default function LoginScreen({navigation}) {
   const [password, onChangpassword] = React.useState('');
   const [number, onChangeNumber] = React.useState(null);
 
-  const btn_login = () => {
-    setItemStorage('user_details', {
-      user_id: 'test_id',
-      user_name: 'test name',
-    });
-    navigation.replace('HomeScreen');
-  };
-
   const setItemStorage = async (key, value) => {
     try {
       await AsyncStorage.setItem(key, JSON.stringify(value));
@@ -39,26 +31,48 @@ export default function LoginScreen({navigation}) {
     }
   };
 
-  // const login = async () => {
-  //   const formData = new FormData();
-  //   formData.append('username', '1000180');
-  //   formData.append('password', '123');
-  //   fetch(global.url + '/login.php', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'multipart/form-data',
-  //     },
-  //     body: formData,
-  //   })
-  //     .then(response => response.json())
-  //     .then(responseJson => {
-  //       console.log(responseJson);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // };
+  const login = async () => {
+    const formData = new FormData();
+    formData.append('username', '1000180');
+    formData.append('password', '123');
+    fetch(global.url + '/login.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        if (responseJson.status == 1) {
+          setItemStorage('user_details', {
+            employee_id: responseJson.result[0].employeeid,
+            user_name:
+              responseJson.result[0].firstname +
+              ' ' +
+              responseJson.result[0].surname,
+          });
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'main',
+                params: {
+                  screenlist: 'home',
+                },
+              },
+            ],
+          });
+        } else {
+          console.log('error connection');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <View style={custom_styles.container}>
@@ -93,7 +107,8 @@ export default function LoginScreen({navigation}) {
                 : custom_styles.login_passive
             }
             onPress={() => {
-              btn_login();
+              login();
+              // navigation.navigate('HomeScreen');
             }}>
             <Text
               style={{

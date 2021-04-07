@@ -140,7 +140,9 @@ export default function SplashScreen({navigation}) {
             onPress={() => {
               selected_leave == ''
                 ? Alert.alert('Please select leave type')
-                : navigation.navigate('DateScreen');
+                : navigation.navigate('DateScreen', {
+                    leave_type: selected_leave,
+                  });
             }}>
             <Text style={{alignSelf: 'center', fontSize: 20, color: 'blue'}}>
               NEXT
