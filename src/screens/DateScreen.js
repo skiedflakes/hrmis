@@ -11,16 +11,16 @@ import {
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 //libs
 //const {width, height} = Dimensions.get('window');
 export default function DateScreen({navigation, route}) {
-  const {leave_type} = route.params;
+  const {leave_type, leave_id} = route.params;
 
   const [date_list, set_date_list] = useState([]);
   const [count_dates, setcount_dates] = useState('0');
-
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -41,7 +41,9 @@ export default function DateScreen({navigation, route}) {
     var min = date.getMinutes();
     var ss = date.getSeconds();
     var mili = date.getMilliseconds();
-    var final_date = (date = mm + '-' + dd + '-' + yyyy);
+    var final_date =
+      yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min + ':' + ss;
+
     setselected_date(final_date);
     var add_date_ = {
       id: Math.random(),
@@ -78,9 +80,87 @@ export default function DateScreen({navigation, route}) {
       1,
     );
 
-    console.log(date_list);
     setcount_dates(date_list.length);
     set_date_list(date_list);
+  };
+
+  const add_transaction = async () => {
+    var fdate_list = date_list.map(function (item, index) {
+      return {date: item.title};
+    });
+
+    var json_arr = JSON.stringify(fdate_list);
+
+    const user_info = await AsyncStorage.getItem('user_details'); //logged in
+    const parsed_user_info = JSON.parse(user_info);
+
+    const formData = new FormData();
+    formData.append('empid', parsed_user_info.employee_id);
+    formData.append('leavetype', leave_id);
+    formData.append('date_applied', get_date_time());
+
+    fetch(global.url + '/add_transaction.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.status == 1) {
+          date_list.map(function (item, index) {
+            add_transaction_details(responseJson.id, item.title);
+          });
+        } else {
+          console.log('error connection');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const add_transaction_details = async (transaction_id, date) => {
+    const formData = new FormData();
+    formData.append('transaction_id', transaction_id);
+    formData.append('date', date);
+
+    fetch(global.url + '/add_transaction_details.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        if (responseJson.status == 1) {
+          navigation.popToTop();
+        } else {
+          console.log('error connection');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const get_date_time = () => {
+    var today = new Date();
+    var time = new Date().getTime();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var hh = today.getHours();
+    var min = today.getMinutes();
+    var ss = today.getSeconds();
+    var mili = today.getMilliseconds();
+    return (today =
+      yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min + ':' + ss);
   };
 
   return (
@@ -179,7 +259,8 @@ export default function DateScreen({navigation, route}) {
                 marginTop: 20,
               }}
               onPress={() => {
-                navigation.popToTop();
+                add_transaction();
+                // navigation.popToTop();
               }}>
               <Text style={{alignSelf: 'center', fontSize: 20, color: 'green'}}>
                 CONFIRM

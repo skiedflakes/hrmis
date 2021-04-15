@@ -18,55 +18,34 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {COLOR_PRIMARY, COLOR_SECONDARY} from '../styles/color_scheme';
 //const {width, height} = Dimensions.get('window');
 export default function SplashScreen({navigation}) {
-  const logout = () => {
-    navigation.goBack();
-  };
-  const remove_async = async key => {
-    try {
-      await AsyncStorage.removeItem(key);
-      return true;
-    } catch (exception) {
-      return false;
-    }
-  };
   const DATA = [
     {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      id: '1561',
       title: 'Vacation',
     },
     {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Priviledge',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Emergency',
-    },
-    {
-      id: '586944a0f-3da1-471f-bd96-145571e29d72',
+      id: '1562',
       title: 'Sick',
     },
-    {
-      id: '5869434a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Force',
-    },
   ];
-  const Item = ({title}) => (
-    <TouchableOpacity onPress={() => select_leave(title)}>
+  const Item = ({title, id}) => (
+    <TouchableOpacity onPress={() => select_leave(title, id)}>
       <View style={styles.item}>
         <Text style={styles.title}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
 
-  const select_leave = title => {
+  const select_leave = (title, id) => {
     setModalVisible(!modalVisible);
     setselected_leave(title);
+    setselected_leave_id(id);
   };
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selected_leave, setselected_leave] = useState('');
-  const renderItem = ({item}) => <Item title={item.title} />;
+  const [selected_leave_id, setselected_leave_id] = useState('');
+  const renderItem = ({item}) => <Item title={item.title} id={item.id} />;
 
   return (
     <View style={styles.container}>
@@ -142,6 +121,7 @@ export default function SplashScreen({navigation}) {
                 ? Alert.alert('Please select leave type')
                 : navigation.navigate('DateScreen', {
                     leave_type: selected_leave,
+                    leave_id: selected_leave_id,
                   });
             }}>
             <Text style={{alignSelf: 'center', fontSize: 20, color: 'blue'}}>

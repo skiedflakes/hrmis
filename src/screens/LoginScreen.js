@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -14,7 +15,6 @@ import {
   SECONDARY_COLOR,
   GRAY1,
   GRAY2,
-  Alert,
 } from 'styles/color_scheme';
 
 export default function LoginScreen({navigation}) {
@@ -33,8 +33,12 @@ export default function LoginScreen({navigation}) {
 
   const login = async () => {
     const formData = new FormData();
-    formData.append('username', '1000180');
-    formData.append('password', '123');
+    // formData.append('username', '1000180');
+    // formData.append('password', '123');
+
+    formData.append('username', username);
+    formData.append('password', password);
+
     fetch(global.url + '/login.php', {
       method: 'POST',
       headers: {
@@ -66,6 +70,7 @@ export default function LoginScreen({navigation}) {
             ],
           });
         } else {
+          Alert.alert('user not found');
           console.log('error connection');
         }
       })
@@ -98,6 +103,7 @@ export default function LoginScreen({navigation}) {
             }}
             value={password}
             placeholder="Password"
+            secureTextEntry={true}
           />
 
           <TouchableOpacity
