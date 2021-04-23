@@ -34,63 +34,63 @@ export default function LoginScreen({navigation}) {
   };
 
   const login = async () => {
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: 'main',
-          params: {
-            screenlist: 'home',
-          },
-        },
-      ],
-    });
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [
+    //     {
+    //       name: 'main',
+    //       params: {
+    //         screenlist: 'home',
+    //       },
+    //     },
+    //   ],
+    // });
 
-    // const formData = new FormData();
-    // // formData.append('username', '1000180');
-    // // formData.append('password', '123');
+    const formData = new FormData();
+    // formData.append('username', '1000180');
+    // formData.append('password', '123');
 
-    // formData.append('username', username);
-    // formData.append('password', password);
+    formData.append('username', username);
+    formData.append('password', password);
 
-    // fetch(global.url + '/login.php', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'multipart/form-data',
-    //   },
-    //   body: formData,
-    // })
-    //   .then(response => response.json())
-    //   .then(responseJson => {
-    //     console.log(responseJson);
-    //     if (responseJson.status == 1) {
-    //       setItemStorage('user_details', {
-    //         employee_id: responseJson.result[0].employeeid,
-    //         user_name:
-    //           responseJson.result[0].firstname +
-    //           ' ' +
-    //           responseJson.result[0].surname,
-    //       });
-    //       navigation.reset({
-    //         index: 0,
-    //         routes: [
-    //           {
-    //             name: 'main',
-    //             params: {
-    //               screenlist: 'home',
-    //             },
-    //           },
-    //         ],
-    //       });
-    //     } else {
-    //       Alert.alert('user not found');
-    //       console.log('error connection');
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    fetch(global.url + '/login.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        if (responseJson.status == 1) {
+          setItemStorage('user_details', {
+            employee_id: responseJson.result[0].employeeid,
+            user_name:
+              responseJson.result[0].firstname +
+              ' ' +
+              responseJson.result[0].surname,
+          });
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'main',
+                params: {
+                  screenlist: 'home',
+                },
+              },
+            ],
+          });
+        } else {
+          Alert.alert('user not found');
+          console.log('error connection');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const [modalVisible, setModalVisible] = useState(false);

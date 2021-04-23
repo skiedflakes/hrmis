@@ -99,7 +99,8 @@ export default function DateScreen({navigation, route}) {
 
     const formData = new FormData();
     formData.append('empid', parsed_user_info.employee_id);
-    formData.append('leavetype', leave_id);
+    formData.append('leavetype', leave_type);
+
     formData.append('date_applied', get_date_time());
 
     fetch(global.url + '/add_transaction.php', {

@@ -19,13 +19,46 @@ import {
 
 export default function ChangePasswordScreen({navigation}) {
   //states
+  const [username, onChangeusername] = React.useState('');
   const [current_password, onChangecurrentpassword] = React.useState('');
   const [new_password, onChangenewpassword] = React.useState('');
   const [confirm_password, onChangeconfirmpassword] = React.useState('');
 
   const submit = () => {
-    Alert.alert('submit');
+    const formData = new FormData();
+    if (new_password == confirm_password) {
+      formData.append('employee_id', username);
+      formData.append('current_password', current_password);
+      formData.append('new_password', new_password);
+
+      fetch(global.url + '/update_password.php', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson);
+          console.log(responseJson);
+          if (responseJson.status == 1) {
+            Alert.alert(responseJson.message);
+            navigation.goBack();
+          } else {
+            Alert.alert('user not found');
+            console.log('error connection');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      Alert.alert('password does not match');
+    }
   };
+
   return (
     <View style={styles.container}>
       <View
@@ -45,6 +78,15 @@ export default function ChangePasswordScreen({navigation}) {
           flex: 0.9,
           paddingHorizontal: 20,
         }}>
+        <TextInput
+          style={custom_styles.input}
+          onChangeText={text => {
+            onChangeusername(text);
+          }}
+          value={username}
+          placeholder="Employee ID "
+          placeholderTextColor="black"
+        />
         <TextInput
           style={custom_styles.input}
           onChangeText={text => {

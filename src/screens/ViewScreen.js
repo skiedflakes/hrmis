@@ -10,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
 //libs
@@ -40,10 +41,11 @@ export default function ViewScreen({navigation}) {
       title={item.title}
       status={item.status}
       response_details={item.response_details}
+      leave_type={item.leave_type}
     />
   );
 
-  const Item = ({title, status, response_details}) => (
+  const Item = ({title, status, response_details, leave_type}) => (
     <TouchableOpacity
       onPress={() => {
         console.log(response_details);
@@ -59,7 +61,21 @@ export default function ViewScreen({navigation}) {
           ? styles.item_canceled
           : null
       }>
-      <Text style={styles.title}>{title}</Text>
+      <View style={{justifyContent: 'center'}}>
+        <Text
+          style={
+            status == 'P'
+              ? styles.title_P
+              : status == 'A'
+              ? styles.title_A
+              : status == 'C'
+              ? styles.title_C
+              : null
+          }>
+          {leave_type} Leave
+        </Text>
+        <Text style={styles.title_date}>{title}</Text>
+      </View>
     </TouchableOpacity>
   );
 
@@ -92,7 +108,8 @@ export default function ViewScreen({navigation}) {
         var my_list = responseJson.result.map(function (item, index) {
           return {
             id: item.LEAVETRANSMSTRID,
-            title: 'No: ' + item.LEAVETRANSMSTRID,
+            title: 'Requested Date: ' + item.DATEOFFILING,
+            leave_type: item.leave_type,
             status: item.APPROVED,
             response_details: item.response_details,
           };
@@ -266,9 +283,26 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 30,
   },
-  title: {
+  title_P: {
     fontSize: 20,
     textAlign: 'center',
+    color: 'orange',
+  },
+  title_A: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'green',
+  },
+  title_C: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'red',
+  },
+
+  title_date: {
+    fontSize: 15,
+    alignSelf: 'center',
+    marginHorizontal: 30,
   },
 });
 
