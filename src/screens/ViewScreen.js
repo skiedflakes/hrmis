@@ -18,25 +18,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {COLOR_PRIMARY, COLOR_SECONDARY} from '../styles/color_scheme';
 //const {width, height} = Dimensions.get('window');
 
-// status pending = 0, canceled - 2, approved - 1,
-const data = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'transaction-1',
-    status: 'P',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'transaction-2',
-    status: 'C',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'transaction-3',
-    status: 'A',
-  },
-];
-
 export default function ViewScreen({navigation}) {
   const [trans_list, settrans_list] = useState([]);
   const [showmodal, setshowmodal] = useState([]);
@@ -89,6 +70,7 @@ export default function ViewScreen({navigation}) {
   }, [count]); // Only re-run the effect if count changes
 
   const get_transactions = async () => {
+    setModalVisible(true);
     const user_info = await AsyncStorage.getItem('user_details'); //logged in
     const parsed_user_info = JSON.parse(user_info);
     console.log(parsed_user_info);
@@ -105,6 +87,8 @@ export default function ViewScreen({navigation}) {
     })
       .then(response => response.json())
       .then(responseJson => {
+        setModalVisible(false);
+        console.log(responseJson.result);
         var my_list = responseJson.result.map(function (item, index) {
           return {
             id: item.LEAVETRANSMSTRID,
@@ -117,6 +101,7 @@ export default function ViewScreen({navigation}) {
         settrans_list(my_list);
       })
       .catch(error => {
+        setModalVisible(false);
         console.log(error);
       });
   };
@@ -134,8 +119,25 @@ export default function ViewScreen({navigation}) {
     </TouchableOpacity>
   );
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={modal_styles.centeredView}>
+          <View style={modal_styles.modalView}>
+            <ActivityIndicator size="small" color={'gray'} />
+          </View>
+        </View>
+      </Modal>
+
       <Modal animationType="fade" transparent={true} visible={showmodal}>
         <View style={modal_styles.centeredView}>
           <View style={modal_styles.modalView}>

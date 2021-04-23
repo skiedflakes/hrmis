@@ -8,10 +8,10 @@ import {
   Button,
   Dimensions,
 } from 'react-native';
-import {SwiperFlatList} from 'react-native-swiper-flatlist';
+
 //libs
 import AsyncStorage from '@react-native-community/async-storage';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+
 //const {width, height} = Dimensions.get('window');
 export default function SplashScreen({navigation}) {
   var count = 1;
@@ -54,9 +54,9 @@ export default function SplashScreen({navigation}) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{alignSelf: 'center'}}> SPLASH SCREEN TEST</Text>
-    </View>
+    <ImageBackground
+      source={require('assets/splash_bg.png')}
+      style={styles.image}></ImageBackground>
   );
 }
 const {width} = Dimensions.get('window');

@@ -61,7 +61,7 @@ export default function SplashScreen({navigation}) {
               fontSize: 20,
               color: 'white',
             }}>
-            REQUESTS
+            APPLICATION STATUS
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -83,7 +83,7 @@ export default function SplashScreen({navigation}) {
               fontSize: 20,
               color: 'white',
             }}>
-            APPLY
+            APPLY FOR LEAVE
           </Text>
         </TouchableOpacity>
 

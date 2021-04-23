@@ -8,6 +8,7 @@ import LoginScreen from 'screens/LoginScreen';
 import ApplyScreen from 'screens/ApplyScreen';
 import ViewScreen from 'screens/ViewScreen';
 import DateScreen from 'screens/DateScreen';
+import ChangePasswordScreen from 'screens/ChangePasswordScreen';
 
 export default function StackNavigationHome({route}) {
   const {screenlist} = route.params;
@@ -18,6 +19,7 @@ export default function StackNavigationHome({route}) {
     ApplyScreen: ApplyScreen,
     ViewScreen: ViewScreen,
     DateScreen: DateScreen,
+    ChangePasswordScreen: ChangePasswordScreen,
   };
 
   const authScreens = {
@@ -26,6 +28,7 @@ export default function StackNavigationHome({route}) {
     ApplyScreen: ApplyScreen,
     ViewScreen: ViewScreen,
     DateScreen: DateScreen,
+    ChangePasswordScreen: ChangePasswordScreen,
   };
 
   return (

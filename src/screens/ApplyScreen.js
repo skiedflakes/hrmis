@@ -27,6 +27,14 @@ export default function SplashScreen({navigation}) {
       id: '1562',
       title: 'Sick',
     },
+    {
+      id: '1563',
+      title: 'Privilege',
+    },
+    {
+      id: '1564',
+      title: 'Special',
+    },
   ];
   const Item = ({title, id}) => (
     <TouchableOpacity onPress={() => select_leave(title, id)}>
@@ -38,8 +46,10 @@ export default function SplashScreen({navigation}) {
 
   const select_leave = (title, id) => {
     setModalVisible(!modalVisible);
-    setselected_leave(title);
-    setselected_leave_id(id);
+    navigation.navigate('DateScreen', {
+      leave_type: title,
+      leave_id: id,
+    });
   };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -49,30 +59,10 @@ export default function SplashScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Select Leave Type</Text>
-
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            />
-          </View>
-        </View>
-      </Modal>
       <View
         style={{flex: 0.1, backgroundColor: 'green', justifyContent: 'center'}}>
         <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
-          APPLY LEAVE
+          SELECT LEAVE TYPE
         </Text>
       </View>
       <View
@@ -83,72 +73,30 @@ export default function SplashScreen({navigation}) {
           flex: 0.9,
           justifyContent: 'center',
         }}>
-        <Text style={{alignSelf: 'center', fontSize: 30}}>
-          {selected_leave}
-        </Text>
-        <View style={{justifyContent: 'center', alignContent: 'center'}}>
-          <TouchableOpacity
-            style={{
-              width: '50%',
-              height: 50,
-              borderColor: 'green',
-              borderWidth: 2,
-              borderRadius: 10,
-              alignSelf: 'center',
-              justifyContent: 'center',
-              marginTop: 30,
-            }}
-            onPress={() => setModalVisible(true)}>
-            <Text style={{alignSelf: 'center', fontSize: 20, color: 'green'}}>
-              SELECT TYPE
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{justifyContent: 'center', alignContent: 'center'}}>
-          <TouchableOpacity
-            style={{
-              width: '50%',
-              height: 50,
-              borderColor: 'blue',
-              borderWidth: 2,
-              borderRadius: 10,
-              alignSelf: 'center',
-              justifyContent: 'center',
-              marginTop: 30,
-            }}
-            onPress={() => {
-              selected_leave == ''
-                ? Alert.alert('Please select leave type')
-                : navigation.navigate('DateScreen', {
-                    leave_type: selected_leave,
-                    leave_id: selected_leave_id,
-                  });
-            }}>
-            <Text style={{alignSelf: 'center', fontSize: 20, color: 'blue'}}>
-              NEXT
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{justifyContent: 'center', alignContent: 'center'}}>
-          <TouchableOpacity
-            style={{
-              width: '50%',
-              height: 50,
-              borderColor: 'gray',
-              borderWidth: 2,
-              borderRadius: 10,
-              alignSelf: 'center',
-              justifyContent: 'center',
-              marginTop: 30,
-            }}
-            onPress={() => {
-              navigation.goBack();
-            }}>
-            <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
-              BACK
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
+        <TouchableOpacity
+          style={{
+            width: '50%',
+            height: 50,
+            borderColor: 'gray',
+            borderWidth: 2,
+            borderRadius: 10,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginTop: 20,
+            marginBottom: 40,
+          }}
+          onPress={() => {
+            navigation.popToTop();
+          }}>
+          <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
+            CANCEL
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -220,10 +168,24 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 30,
   },
+  item_back: {
+    padding: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 100,
+    marginVertical: 10,
+    marginHorizontal: 30,
+  },
   title: {
     fontSize: 25,
     alignSelf: 'center',
     marginHorizontal: 30,
     color: 'green',
+  },
+  title_back: {
+    fontSize: 25,
+    alignSelf: 'center',
+    marginHorizontal: 30,
+    color: 'gray',
   },
 });

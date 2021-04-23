@@ -8,6 +8,9 @@ import {
   Button,
   Dimensions,
   TouchableOpacity,
+  Alert,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 
@@ -41,8 +44,7 @@ export default function DateScreen({navigation, route}) {
     var min = date.getMinutes();
     var ss = date.getSeconds();
     var mili = date.getMilliseconds();
-    var final_date =
-      yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min + ':' + ss;
+    var final_date = yyyy + '-' + mm + '-' + dd;
 
     setselected_date(final_date);
     var add_date_ = {
@@ -85,6 +87,7 @@ export default function DateScreen({navigation, route}) {
   };
 
   const add_transaction = async () => {
+    setModalVisible(true);
     var fdate_list = date_list.map(function (item, index) {
       return {date: item.title};
     });
@@ -111,7 +114,8 @@ export default function DateScreen({navigation, route}) {
       .then(responseJson => {
         if (responseJson.status == 1) {
           date_list.map(function (item, index) {
-            add_transaction_details(responseJson.id, item.title);
+            var myindex = index + 1;
+            add_transaction_details(responseJson.id, item.title, myindex);
           });
         } else {
           console.log('error connection');
@@ -122,7 +126,7 @@ export default function DateScreen({navigation, route}) {
       });
   };
 
-  const add_transaction_details = async (transaction_id, date) => {
+  const add_transaction_details = async (transaction_id, date, myindex) => {
     const formData = new FormData();
     formData.append('transaction_id', transaction_id);
     formData.append('date', date);
@@ -139,13 +143,21 @@ export default function DateScreen({navigation, route}) {
       .then(responseJson => {
         console.log(responseJson);
         if (responseJson.status == 1) {
-          navigation.popToTop();
+          if (date_list.length == myindex) {
+            setModalVisible(false);
+            Alert.alert('success');
+            navigation.popToTop();
+          }
         } else {
+          setModalVisible(false);
+          Alert.alert('failed');
           console.log('error connection');
         }
       })
       .catch(error => {
-        console.log(error);
+        setModalVisible(false);
+        Alert.alert('failed');
+        console.log('error connection');
       });
   };
 
@@ -163,9 +175,28 @@ export default function DateScreen({navigation, route}) {
       yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min + ':' + ss);
   };
 
+  //modal loading
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={modal_styles.centeredView}>
+          <View style={modal_styles.modalView}>
+            <ActivityIndicator size="small" color={'gray'} />
+          </View>
+        </View>
+      </Modal>
+
       <DateTimePickerModal
+        minimumDate={leave_id == '1561' ? new Date(2021, 4, 23) : null}
         isVisible={isDatePickerVisible}
         mode="date"
         onConfirm={handleConfirm}
@@ -263,7 +294,7 @@ export default function DateScreen({navigation, route}) {
                 // navigation.popToTop();
               }}>
               <Text style={{alignSelf: 'center', fontSize: 20, color: 'green'}}>
-                CONFIRM
+                SUBMIT
               </Text>
             </TouchableOpacity>
 
@@ -324,5 +355,49 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
+  },
+});
+
+const modal_styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
