@@ -56,7 +56,10 @@ export default function SplashScreen({navigation}) {
   return (
     <ImageBackground
       source={require('assets/splash_bg.png')}
-      style={styles.image}></ImageBackground>
+      style={styles.image}
+      imageStyle={{
+        resizeMode: 'stretch', // works only here!
+      }}></ImageBackground>
   );
 }
 const {width} = Dimensions.get('window');
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
   text: {fontSize: width * 0.5, textAlign: 'center'},
   image: {
     flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
+    alignSelf: 'stretch',
+    width: null,
   },
 });

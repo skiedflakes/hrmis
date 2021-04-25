@@ -46,6 +46,7 @@ export default function LoginScreen({navigation}) {
     //   ],
     // });
 
+    setModalVisible(true);
     const formData = new FormData();
     // formData.append('username', '1000180');
     // formData.append('password', '123');
@@ -63,6 +64,7 @@ export default function LoginScreen({navigation}) {
     })
       .then(response => response.json())
       .then(responseJson => {
+        setModalVisible(false);
         console.log(responseJson);
         if (responseJson.status == 1) {
           setItemStorage('user_details', {
@@ -89,7 +91,9 @@ export default function LoginScreen({navigation}) {
         }
       })
       .catch(error => {
+        setModalVisible(false);
         console.log(error);
+        Alert.alert('Network Error. Something went wrong');
       });
   };
 
@@ -98,7 +102,10 @@ export default function LoginScreen({navigation}) {
   return (
     <ImageBackground
       source={require('assets/login_bg.png')}
-      style={custom_styles.image}>
+      style={custom_styles.image}
+      imageStyle={{
+        resizeMode: 'stretch', // works only here!
+      }}>
       <View style={custom_styles.container}>
         <Modal
           animationType="fade"
@@ -236,8 +243,9 @@ const custom_styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
+    alignSelf: 'stretch',
+    width: '100%', // applied to Image
+    height: '100%',
   },
 });
 
