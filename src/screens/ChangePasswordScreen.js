@@ -17,6 +17,7 @@ import {
   GRAY2,
 } from 'styles/color_scheme';
 
+import {RFValue} from 'react-native-responsive-fontsize';
 export default function ChangePasswordScreen({navigation}) {
   //states
   const [username, onChangeusername] = React.useState('');
@@ -41,17 +42,16 @@ export default function ChangePasswordScreen({navigation}) {
       })
         .then(response => response.json())
         .then(responseJson => {
-          console.log(responseJson);
-          console.log(responseJson);
           if (responseJson.status == 1) {
             Alert.alert(responseJson.message);
-            navigation.goBack();
           } else {
-            Alert.alert('user not found');
-            console.log('error connection');
+            Alert.alert('Error Something went wrong');
           }
+          navigation.goBack();
         })
         .catch(error => {
+          navigation.goBack();
+          Alert.alert('Error Something went wrong');
           console.log(error);
         });
     } else {
@@ -67,7 +67,8 @@ export default function ChangePasswordScreen({navigation}) {
           backgroundColor: 'green',
           justifyContent: 'center',
         }}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
+        <Text
+          style={{alignSelf: 'center', color: 'white', fontSize: RFValue(20)}}>
           Reset Password
         </Text>
       </View>
@@ -136,7 +137,7 @@ export default function ChangePasswordScreen({navigation}) {
           <Text
             style={{
               color: 'white',
-              fontSize: 16,
+              fontSize: RFValue(16),
               fontWeight: 'bold',
               alignSelf: 'center',
             }}>
@@ -176,7 +177,7 @@ const custom_styles = StyleSheet.create({
   input: {
     margin: 12,
     borderBottomWidth: 1,
-    fontSize: 18,
+    fontSize: RFValue(18),
     color: 'black',
     borderBottomColor: 'green',
     marginTop: 30,
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  text: {fontSize: 13, textAlign: 'center'},
+  text: {fontSize: RFValue(13), textAlign: 'center'},
   image: {
     flex: 1,
     resizeMode: 'cover',

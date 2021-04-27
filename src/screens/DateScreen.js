@@ -17,6 +17,8 @@ import {FlatList} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
+import {RFValue} from 'react-native-responsive-fontsize';
+
 //libs
 //const {width, height} = Dimensions.get('window');
 export default function DateScreen({navigation, route}) {
@@ -87,44 +89,43 @@ export default function DateScreen({navigation, route}) {
   };
 
   const add_transaction = async () => {
-    setModalVisible(true);
-    var fdate_list = date_list.map(function (item, index) {
-      return {date: item.title};
-    });
+    if (date_list.length > 0) {
+      setModalVisible(true);
 
-    var json_arr = JSON.stringify(fdate_list);
+      const user_info = await AsyncStorage.getItem('user_details'); //logged in
+      const parsed_user_info = JSON.parse(user_info);
 
-    const user_info = await AsyncStorage.getItem('user_details'); //logged in
-    const parsed_user_info = JSON.parse(user_info);
+      const formData = new FormData();
+      formData.append('empid', parsed_user_info.employee_id);
+      formData.append('leavetype', leave_type);
 
-    const formData = new FormData();
-    formData.append('empid', parsed_user_info.employee_id);
-    formData.append('leavetype', leave_type);
+      formData.append('date_applied', get_date_time());
 
-    formData.append('date_applied', get_date_time());
-
-    fetch(global.url + '/add_transaction.php', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-      body: formData,
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.status == 1) {
-          date_list.map(function (item, index) {
-            var myindex = index + 1;
-            add_transaction_details(responseJson.id, item.title, myindex);
-          });
-        } else {
-          console.log('error connection');
-        }
+      fetch(global.url + '/add_transaction.php', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.status == 1) {
+            date_list.map(function (item, index) {
+              var myindex = index + 1;
+              add_transaction_details(responseJson.id, item.title, myindex);
+            });
+          } else {
+            console.log('error connection');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      Alert.alert('Please add date');
+    }
   };
 
   const add_transaction_details = async (transaction_id, date, myindex) => {
@@ -146,7 +147,7 @@ export default function DateScreen({navigation, route}) {
         if (responseJson.status == 1) {
           if (date_list.length == myindex) {
             setModalVisible(false);
-            Alert.alert('success');
+            Alert.alert('Successfully added');
             navigation.popToTop();
           }
         } else {
@@ -210,7 +211,8 @@ export default function DateScreen({navigation, route}) {
           justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
+        <Text
+          style={{alignSelf: 'center', color: 'white', fontSize: RFValue(20)}}>
           {leave_type} Leave
         </Text>
         <View
@@ -228,7 +230,7 @@ export default function DateScreen({navigation, route}) {
             style={{
               alignSelf: 'center',
               color: 'white',
-              fontSize: 18,
+              fontSize: RFValue(18),
               fontWeight: 'bold',
             }}>
             {count_dates}
@@ -273,7 +275,11 @@ export default function DateScreen({navigation, route}) {
               }}>
               <View style={{flexDirection: 'row', alignSelf: 'center'}}>
                 <Text
-                  style={{alignSelf: 'center', fontSize: 20, color: 'blue'}}>
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: RFValue(20),
+                    color: 'blue',
+                  }}>
                   ADD DATE
                 </Text>
               </View>
@@ -294,7 +300,12 @@ export default function DateScreen({navigation, route}) {
                 add_transaction();
                 // navigation.popToTop();
               }}>
-              <Text style={{alignSelf: 'center', fontSize: 20, color: 'green'}}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  fontSize: RFValue(20),
+                  color: 'green',
+                }}>
                 SUBMIT
               </Text>
             </TouchableOpacity>
@@ -313,7 +324,12 @@ export default function DateScreen({navigation, route}) {
               onPress={() => {
                 navigation.popToTop();
               }}>
-              <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  fontSize: RFValue(20),
+                  color: 'gray',
+                }}>
                 CANCEL
               </Text>
             </TouchableOpacity>
@@ -331,7 +347,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   text: {
-    fontSize: 18,
+    fontSize: RFValue(18),
     flex: 0.7,
     backgroundColor: '#d1d1d1',
     textAlign: 'center',
@@ -340,7 +356,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   textcencel: {
-    fontSize: 18,
+    fontSize: RFValue(18),
 
     backgroundColor: '#d1d1d1',
     textAlign: 'center',

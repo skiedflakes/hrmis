@@ -16,6 +16,7 @@ import {SwiperFlatList} from 'react-native-swiper-flatlist';
 //libs
 import AsyncStorage from '@react-native-community/async-storage';
 
+import {RFValue} from 'react-native-responsive-fontsize';
 import {COLOR_PRIMARY, COLOR_SECONDARY} from '../styles/color_scheme';
 //const {width, height} = Dimensions.get('window');
 
@@ -187,7 +188,8 @@ export default function ViewScreen({navigation}) {
 
       <View
         style={{flex: 0.1, backgroundColor: 'green', justifyContent: 'center'}}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
+        <Text
+          style={{alignSelf: 'center', color: 'white', fontSize: RFValue(18)}}>
           REQUESTS
         </Text>
       </View>
@@ -227,7 +229,12 @@ export default function ViewScreen({navigation}) {
               onPress={() => {
                 navigation.goBack();
               }}>
-              <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  fontSize: RFValue(18),
+                  color: 'gray',
+                }}>
                 BACK
               </Text>
             </TouchableOpacity>
@@ -284,25 +291,24 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   title_P: {
-    fontSize: 20,
+    fontSize: RFValue(18),
     textAlign: 'center',
     color: 'orange',
   },
   title_A: {
-    fontSize: 20,
+    fontSize: RFValue(18),
     textAlign: 'center',
     color: 'green',
   },
   title_C: {
-    fontSize: 20,
+    fontSize: RFValue(18),
     textAlign: 'center',
     color: 'red',
   },
 
   title_date: {
-    fontSize: 15,
+    fontSize: RFValue(15),
     alignSelf: 'center',
-    marginHorizontal: 30,
   },
 });
 
@@ -358,7 +364,7 @@ const modal_styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: RFValue(18),
     fontWeight: 'bold',
   },
   container: {
@@ -370,12 +376,11 @@ const modal_styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 100,
     marginVertical: 10,
-    marginHorizontal: 30,
   },
   title: {
-    fontSize: 25,
+    fontSize: RFValue(25),
     alignSelf: 'center',
-    marginHorizontal: 30,
     color: 'green',
+    paddingHorizontal: 20,
   },
 });

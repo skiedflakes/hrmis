@@ -19,6 +19,8 @@ import {
   GRAY2,
 } from 'styles/color_scheme';
 
+import {RFValue} from 'react-native-responsive-fontsize';
+
 export default function LoginScreen({navigation}) {
   //states
   const [username, onChangeusername] = React.useState('');
@@ -164,7 +166,7 @@ export default function LoginScreen({navigation}) {
               <Text
                 style={{
                   color: 'white',
-                  fontSize: 16,
+                  fontSize: RFValue(16),
                   fontWeight: 'bold',
                   alignSelf: 'center',
                 }}>
@@ -181,7 +183,7 @@ export default function LoginScreen({navigation}) {
             <TouchableOpacity>
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: RFValue(16),
                   color: 'red',
                   alignSelf: 'center',
                 }}>
@@ -195,7 +197,7 @@ export default function LoginScreen({navigation}) {
               }}>
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: RFValue(16),
                   color: 'red',
                   alignSelf: 'center',
                 }}>
@@ -222,20 +224,20 @@ const custom_styles = StyleSheet.create({
   input: {
     margin: 12,
     borderBottomWidth: 1,
-    fontSize: 18,
+    fontSize: RFValue(18),
     color: 'black',
     borderBottomColor: 'green',
     marginTop: 30,
   },
   login_passive: {
-    height: 60,
+    height: RFValue(60),
     backgroundColor: 'gray',
     marginTop: 30,
     marginHorizontal: 10,
     justifyContent: 'center',
   },
   login_active: {
-    height: 60,
+    height: RFValue(60),
     backgroundColor: 'green',
     marginTop: 30,
     marginHorizontal: 10,

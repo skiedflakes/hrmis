@@ -12,6 +12,8 @@ import {
   Alert,
 } from 'react-native';
 
+import {RFValue} from 'react-native-responsive-fontsize';
+
 //libs
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -29,7 +31,7 @@ export default function SplashScreen({navigation}) {
     },
     {
       id: '1563',
-      title: 'Privilege',
+      title: 'Privilege', //special prvillege
     },
     {
       id: '1564',
@@ -61,7 +63,8 @@ export default function SplashScreen({navigation}) {
     <View style={styles.container}>
       <View
         style={{flex: 0.1, backgroundColor: 'green', justifyContent: 'center'}}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
+        <Text
+          style={{alignSelf: 'center', color: 'white', fontSize: RFValue(20)}}>
           SELECT LEAVE TYPE
         </Text>
       </View>
@@ -77,6 +80,7 @@ export default function SplashScreen({navigation}) {
           data={DATA}
           renderItem={renderItem}
           keyExtractor={item => item.id}
+          style={{marginTop: 20}}
         />
         <TouchableOpacity
           style={{
@@ -93,7 +97,8 @@ export default function SplashScreen({navigation}) {
           onPress={() => {
             navigation.popToTop();
           }}>
-          <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
+          <Text
+            style={{alignSelf: 'center', fontSize: RFValue(20), color: 'gray'}}>
             CANCEL
           </Text>
         </TouchableOpacity>
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: RFValue(20),
   },
   container: {
     flex: 1,
@@ -177,13 +182,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   title: {
-    fontSize: 25,
+    fontSize: RFValue(25),
     alignSelf: 'center',
     marginHorizontal: 30,
     color: 'green',
   },
   title_back: {
-    fontSize: 25,
+    fontSize: RFValue(25),
     alignSelf: 'center',
     marginHorizontal: 30,
     color: 'gray',

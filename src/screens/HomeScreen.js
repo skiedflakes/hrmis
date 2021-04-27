@@ -9,6 +9,9 @@ import {
   Dimensions,
 } from 'react-native';
 import {SwiperFlatList} from 'react-native-swiper-flatlist';
+
+import {RFValue} from 'react-native-responsive-fontsize';
+
 //libs
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -32,7 +35,8 @@ export default function SplashScreen({navigation}) {
     <View style={styles.container}>
       <View
         style={{flex: 0.1, backgroundColor: 'green', justifyContent: 'center'}}>
-        <Text style={{alignSelf: 'center', color: 'white', fontSize: 20}}>
+        <Text
+          style={{alignSelf: 'center', color: 'white', fontSize: RFValue(20)}}>
           HRMIS
         </Text>
       </View>
@@ -52,16 +56,16 @@ export default function SplashScreen({navigation}) {
             justifyContent: 'center',
           }}
           onPress={() => {
-            navigation.navigate('ViewScreen');
+            navigation.navigate('ApplyScreen');
           }}>
           <Text
             style={{
               fontWeight: 'bold',
               alignSelf: 'center',
-              fontSize: 20,
+              fontSize: RFValue(20),
               color: 'white',
             }}>
-            APPLICATION STATUS
+            APPLY FOR LEAVE
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -74,16 +78,16 @@ export default function SplashScreen({navigation}) {
             marginTop: 20,
           }}
           onPress={() => {
-            navigation.navigate('ApplyScreen');
+            navigation.navigate('ViewScreen');
           }}>
           <Text
             style={{
               fontWeight: 'bold',
               alignSelf: 'center',
-              fontSize: 20,
+              fontSize: RFValue(20),
               color: 'white',
             }}>
-            APPLY FOR LEAVE
+            APPLICATION STATUS
           </Text>
         </TouchableOpacity>
 
@@ -100,7 +104,8 @@ export default function SplashScreen({navigation}) {
           onPress={() => {
             logout();
           }}>
-          <Text style={{alignSelf: 'center', fontSize: 20, color: 'gray'}}>
+          <Text
+            style={{alignSelf: 'center', fontSize: RFValue(20), color: 'gray'}}>
             LOG OUT
           </Text>
         </TouchableOpacity>
