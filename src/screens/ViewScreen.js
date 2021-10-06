@@ -105,18 +105,23 @@ export default function ViewScreen({navigation}) {
       .then(response => response.json())
       .then(responseJson => {
         setModalVisible(false);
-        console.log(responseJson.result);
-        var my_list = responseJson.result.map(function (item, index) {
-          return {
-            id: item.LEAVETRANSMSTRID,
-            title: 'Requested Date: ' + item.DATEOFFILING,
-            leave_type: item.leave_type,
-            status: item.APPROVED,
-            response_details: item.response_details,
-          };
-        });
 
-        settrans_list(my_list);
+        if (responseJson.status != 0) {
+          try {
+            var my_list = responseJson.result.map(function (item, index) {
+              return {
+                id: item.LEAVETRANSMSTRID,
+                title: 'Requested Date: ' + item.DATEOFFILING,
+                leave_type: item.leave_type,
+                status: item.APPROVED,
+                response_details: item.response_details,
+              };
+            });
+
+            settrans_list(my_list);
+          } catch (error) {}
+        } else {
+        }
       })
       .catch(error => {
         setModalVisible(false);

@@ -33,10 +33,10 @@ export default function SplashScreen({navigation}) {
       id: '1563',
       title: 'Privilege', //special prvillege
     },
-    {
-      id: '1564',
-      title: 'Special',
-    },
+    // {
+    //   id: '1564',
+    //   title: 'Special',
+    // },
   ];
   const Item = ({title, id}) => (
     <TouchableOpacity onPress={() => select_leave(title, id)}>
@@ -47,11 +47,19 @@ export default function SplashScreen({navigation}) {
   );
 
   const select_leave = (title, id) => {
-    setModalVisible(!modalVisible);
-    navigation.navigate('DateScreen', {
-      leave_type: title,
-      leave_id: id,
-    });
+    if (id == '1563') {
+      setModalVisible(!modalVisible);
+      navigation.navigate('DateScreenPriviledge', {
+        leave_type: title,
+        leave_id: id,
+      });
+    } else {
+      setModalVisible(!modalVisible);
+      navigation.navigate('DateScreen', {
+        leave_type: title,
+        leave_id: id,
+      });
+    }
   };
 
   const [modalVisible, setModalVisible] = useState(false);

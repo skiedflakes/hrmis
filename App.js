@@ -12,7 +12,8 @@ const forFade = ({current}) => ({
 const Stack = createStackNavigator();
 export default function App() {
   // global.url = 'http://172.16.10.219/hrmis';
-  global.url = 'https://onlineservices.bacolodcity.gov.ph/services/hrmis';
+  global.url =
+    'https://onlineservices.bacolodcity.gov.ph/services/hrmis/mobile';
   return (
     <NavigationContainer>
       <Stack.Navigator>

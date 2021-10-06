@@ -23,7 +23,7 @@ import {RFValue} from 'react-native-responsive-fontsize';
 //const {width, height} = Dimensions.get('window');
 export default function DateScreen({navigation, route}) {
   const {leave_type, leave_id} = route.params;
-  const [remaining_leave, setremaining_leave] = useState(4);
+
   const [date_list, set_date_list] = useState([]);
   const [count_dates, setcount_dates] = useState('0');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -49,45 +49,23 @@ export default function DateScreen({navigation, route}) {
     var final_date = yyyy + '-' + mm + '-' + dd;
 
     setselected_date(final_date);
-
-    if (remaining_leave > 0) {
-      var add_date_ = {
-        id: Math.random(),
-        title: final_date,
-        wpay: true,
-      };
-
-      date_list.push(add_date_);
-      set_date_list(date_list);
-      setcount_dates(date_list.length);
-
-      setremaining_leave(remaining_leave - 1);
-    } else {
-      var add_date_ = {
-        id: Math.random(),
-        title: final_date,
-        wpay: false,
-      };
-
-      date_list.push(add_date_);
-      set_date_list(date_list);
-      setcount_dates(date_list.length);
-    }
+    var add_date_ = {
+      id: Math.random(),
+      title: final_date,
+    };
+    date_list.push(add_date_);
+    set_date_list(date_list);
+    setcount_dates(date_list.length);
   };
 
   const [selected_date, setselected_date] = useState();
   const renderItem = ({item}) => (
-    <Item
-      title={item.title}
-      id={item.id}
-      cancel_item={cancel_item}
-      wpay={item.wpay}
-    />
+    <Item title={item.title} id={item.id} cancel_item={cancel_item} />
   );
 
-  const Item = ({title, id, cancel_item, wpay}) => (
+  const Item = ({title, id, cancel_item}) => (
     <View style={{flexDirection: 'row'}}>
-      <Text style={wpay ? styles.text : styles.text_passive}>{title}</Text>
+      <Text style={styles.text}>{title}</Text>
       <TouchableOpacity
         style={{flex: 0.3}}
         onPress={() => {
@@ -99,7 +77,6 @@ export default function DateScreen({navigation, route}) {
   );
 
   const cancel_item = async id => {
-    setremaining_leave(remaining_leave + 1);
     date_list.splice(
       date_list.findIndex(function (i) {
         return i.id == id;
@@ -259,32 +236,6 @@ export default function DateScreen({navigation, route}) {
             {count_dates}
           </Text>
         </View>
-
-        <Text
-          style={{alignSelf: 'center', color: 'white', fontSize: RFValue(20)}}>
-          wPay:
-        </Text>
-        <View
-          style={{
-            height: 30,
-            width: 30,
-            borderRadius: 20,
-            borderWidth: 2,
-            borderColor: 'white',
-            alignSelf: 'center',
-            marginHorizontal: 8,
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              alignSelf: 'center',
-              color: 'white',
-              fontSize: RFValue(18),
-              fontWeight: 'bold',
-            }}>
-            {remaining_leave}
-          </Text>
-        </View>
       </View>
 
       <View
@@ -308,27 +259,31 @@ export default function DateScreen({navigation, route}) {
           </View>
 
           <View style={{flex: 0.5}}>
-            {remaining_leave > 0 ? (
-              <TouchableOpacity
-                style={styles.btn_date}
-                onPress={() => {
-                  showDatePicker();
-                }}>
-                <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                  <Text style={styles.text_date}>Add Date wPay</Text>
-                </View>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.btn_date_passive}
-                onPress={() => {
-                  showDatePicker();
-                }}>
-                <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-                  <Text style={styles.text_date_passive}>Add Date w/o PAY</Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={{
+                width: '50%',
+                height: 50,
+                borderColor: 'blue',
+                borderWidth: 2,
+                borderRadius: 10,
+                alignSelf: 'center',
+                justifyContent: 'center',
+                marginTop: 10,
+              }}
+              onPress={() => {
+                showDatePicker();
+              }}>
+              <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: RFValue(20),
+                    color: 'blue',
+                  }}>
+                  ADD DATE
+                </Text>
+              </View>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={{
@@ -400,16 +355,6 @@ const styles = StyleSheet.create({
     padding: 15,
     fontWeight: 'bold',
   },
-  text_passive: {
-    fontSize: RFValue(18),
-    flex: 0.7,
-    backgroundColor: '#d1d1d1',
-    textAlign: 'center',
-    margin: 1,
-    padding: 15,
-    fontWeight: 'bold',
-    color: 'red',
-  },
   textcencel: {
     fontSize: RFValue(18),
 
@@ -427,36 +372,6 @@ const styles = StyleSheet.create({
   },
   item: {
     flex: 1,
-  },
-  btn_date: {
-    width: '50%',
-    height: 50,
-    borderColor: 'blue',
-    borderWidth: 2,
-    borderRadius: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  btn_date_passive: {
-    width: '50%',
-    height: 50,
-    borderColor: 'red',
-    borderWidth: 2,
-    borderRadius: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  text_date: {
-    alignSelf: 'center',
-    fontSize: RFValue(20),
-    color: 'blue',
-  },
-  text_date_passive: {
-    alignSelf: 'center',
-    fontSize: RFValue(20),
-    color: 'red',
   },
 });
 
