@@ -117,14 +117,14 @@ export default function DateScreen({navigation, route}) {
 
       const user_info = await AsyncStorage.getItem('user_details'); //logged in
       const parsed_user_info = JSON.parse(user_info);
-
+      console.log(parsed_user_info);
       const formData = new FormData();
       formData.append('empid', parsed_user_info.employee_id);
       formData.append('leavetype', leave_type);
 
       formData.append('date_applied', get_date_time());
 
-      fetch(global.url + '/add_transaction.php', {
+      fetch(global.url + '/add_transactions.php', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -134,10 +134,11 @@ export default function DateScreen({navigation, route}) {
       })
         .then(response => response.json())
         .then(responseJson => {
-          if (responseJson.status == 1) {
+          var res = responseJson.response[0];
+          if (res.status == 1) {
             date_list.map(function (item, index) {
               var myindex = index + 1;
-              add_transaction_details(responseJson.id, item.title, myindex);
+              add_transaction_details(res.id, item.title, myindex);
             });
           } else {
             console.log('error connection');
@@ -152,6 +153,7 @@ export default function DateScreen({navigation, route}) {
   };
 
   const add_transaction_details = async (transaction_id, date, myindex) => {
+    console.log(transaction_id);
     const formData = new FormData();
     formData.append('transaction_id', transaction_id);
     formData.append('date', date);
@@ -166,8 +168,8 @@ export default function DateScreen({navigation, route}) {
     })
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
-        if (responseJson.status == 1) {
+        var res = responseJson.response[0];
+        if (res.status == 1) {
           if (date_list.length == myindex) {
             setModalVisible(false);
             Alert.alert('Successfully added');
@@ -182,7 +184,7 @@ export default function DateScreen({navigation, route}) {
       .catch(error => {
         setModalVisible(false);
         Alert.alert('failed');
-        console.log('error connection');
+        console.log('error connection2');
       });
   };
 

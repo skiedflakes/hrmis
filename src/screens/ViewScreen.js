@@ -39,7 +39,7 @@ export default function ViewScreen({navigation}) {
   //page component
   const renderItem = ({item}) => (
     <Item
-      title={item.title}
+      title={'Requested Date: ' + item.date_filled}
       status={item.status}
       response_details={item.response_details}
       leave_type={item.leave_type}
@@ -49,7 +49,6 @@ export default function ViewScreen({navigation}) {
   const Item = ({title, status, response_details, leave_type}) => (
     <TouchableOpacity
       onPress={() => {
-        console.log(response_details);
         setshowmodal(true);
         setmodal_list(response_details);
       }}
@@ -90,7 +89,6 @@ export default function ViewScreen({navigation}) {
     setModalVisible(true);
     const user_info = await AsyncStorage.getItem('user_details'); //logged in
     const parsed_user_info = JSON.parse(user_info);
-    console.log(parsed_user_info);
 
     const formData = new FormData();
     formData.append('employee_id', parsed_user_info.employee_id);
@@ -106,19 +104,23 @@ export default function ViewScreen({navigation}) {
       .then(responseJson => {
         setModalVisible(false);
 
-        if (responseJson.status != 0) {
-          try {
-            var my_list = responseJson.result.map(function (item, index) {
-              return {
-                id: item.LEAVETRANSMSTRID,
-                title: 'Requested Date: ' + item.DATEOFFILING,
-                leave_type: item.leave_type,
-                status: item.APPROVED,
-                response_details: item.response_details,
-              };
-            });
+        var res = responseJson.data[0];
 
-            settrans_list(my_list);
+        if (res.status != 0) {
+          try {
+            // var my_list = res.map(function (item, index) {
+            //   return {
+            //     id: item.leave_transaction_master_id,
+            //     title: 'Requested Date: ' + item.date_filled,
+            //     leave_type: item.leave_type,
+            //     status: item.status,
+            //     response_details: item.response_details,
+            //   };
+            // });
+
+            console.log(res);
+            settrans_list(res);
+            //settrans_list(my_list);
           } catch (error) {}
         } else {
         }

@@ -67,14 +67,12 @@ export default function LoginScreen({navigation}) {
       .then(response => response.json())
       .then(responseJson => {
         setModalVisible(false);
-        console.log(responseJson);
-        if (responseJson.status == 1) {
+        console.log(responseJson.response[0]);
+        var res = responseJson.response[0];
+        if (res.status == 1) {
           setItemStorage('user_details', {
-            employee_id: responseJson.result[0].employeeid,
-            user_name:
-              responseJson.result[0].firstname +
-              ' ' +
-              responseJson.result[0].surname,
+            employee_id: res.employee_id,
+            user_name: res.firstname + ' ' + res.lastname,
           });
           navigation.reset({
             index: 0,
